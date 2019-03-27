@@ -8,16 +8,16 @@ import {
   STR_DEFAULT,
   STR_JINGE,
   STR_EMPTY
-} from 'jinge/src/util';
+} from 'jinge/util';
 import {
   createComment,
   getParent,
   insertBefore,
   removeChild
-} from 'jinge/src/dom';
+} from 'jinge/dom';
 import {
   wrapViewModel
-} from 'jinge/src/viewmodel/proxy';
+} from 'jinge/viewmodel/proxy';
 import {
   Component,
   RENDER,
@@ -29,7 +29,7 @@ import {
   CONTEXT,
   UPDATE_IF_NEED,
   UPDATE
-} from 'jinge/src/core/component';
+} from 'jinge/core/component';
 import {
   UIROUTER,
   UIROUTER_CONTEXT,

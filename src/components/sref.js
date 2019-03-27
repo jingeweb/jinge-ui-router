@@ -4,20 +4,20 @@ import {
   STATE,
   STATE_RENDERED,
   ARG_COMPONENTS
-} from 'jinge/src/core/component';
+} from 'jinge/core/component';
 import {
   addEvent,
   removeEvent,
   setAttribute,
   addClass,
   removeClass
-} from 'jinge/src/dom';
+} from 'jinge/dom';
 import {
   Symbol,
   instanceOf,
   STR_DEFAULT,
   isObject
-} from 'jinge/src/util';
+} from 'jinge/util';
 import {
   UIROUTER_CONTEXT,
   UIROUTER_CONTEXT_PARENT,

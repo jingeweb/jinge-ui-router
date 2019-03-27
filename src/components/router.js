@@ -1,9 +1,9 @@
 import {
   Component,
-} from 'jinge/src/core/component';
+} from 'jinge/core/component';
 import {
   Symbol
-} from 'jinge/src/util';
+} from 'jinge/util';
 import {
   UIROUTER_CONTEXT,
   UIROUTER,

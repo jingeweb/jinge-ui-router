@@ -11,7 +11,7 @@ import {
   mapObject,
   STR_DEFAULT,
   STR_JINGE
-} from 'jinge/src/util';
+} from 'jinge/util';
 
 
 export function jingeViewsBuilder(state) {
