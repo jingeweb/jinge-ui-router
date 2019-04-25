@@ -1,6 +1,6 @@
 {
   "name": "jinge-ui-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ui-router for jinge framework",
   "main": "src/index.js",
   "scripts": {
@@ -21,14 +21,17 @@
   },
   "homepage": "https://github.com/YuhangGe/jinge-ui-router#readme",
   "dependencies": {
-    "@uirouter/core": "^5.0.23",
-    "jinge": "~1.0.0"
+    "@uirouter/core": "^5.0.23"
+  },
+  "peerDependencies": {
+    "jinge": "^1.0.4"
   },
   "pre-commit": [
     "lint"
   ],
   "devDependencies": {
     "eslint": "^5.12.1",
+    "jinge": "^1.0.4",
     "precommit-hook": "^3.0.0"
   }
 }

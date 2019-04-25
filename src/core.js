@@ -39,7 +39,7 @@ export class BaseRouter extends UIRouter {
   }
   register(...stateDefines) {
     stateDefines.forEach(stateDef => {
-      if (!stateDef.component || !stateDef.name) throw new Error('ui-router state define require properties: name, component');
+      if (!stateDef.name) throw new Error('ui-router state define require properties: name, component');
       const resolve = stateDef.resolve;
       if (!isUndefined(resolve)) {
         if (resolve === null || !isObject(resolve)) {
