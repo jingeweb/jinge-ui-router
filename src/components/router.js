@@ -1,9 +1,10 @@
 import {
   Component,
-} from 'jinge/core/component';
-import {
-  Symbol
-} from 'jinge/util';
+  SET_CONTEXT,
+  Symbol,
+  AFTER_RENDER,
+  BEFORE_DESTROY
+} from 'jinge';
 import {
   UIROUTER_CONTEXT,
   UIROUTER,
@@ -28,13 +29,12 @@ export class UIBaseRouter extends Component {
     }
     super(attrs);
     this[UIROUTER] = router;
-    this.setContext(UIROUTER_CONTEXT, router);
+    this[SET_CONTEXT](UIROUTER_CONTEXT, router);
   }
-  afterRender() {
+  [AFTER_RENDER]() {
     this[UIROUTER].start();
-    // window.__DEBUG = this[UIROUTER];
   }
-  beforeDestroy() {
+  [BEFORE_DESTROY]() {
     this[UIROUTER].dispose();
   }
 }

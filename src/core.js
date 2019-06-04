@@ -68,8 +68,11 @@ export class BaseRouter extends UIRouter {
     });
     return this;
   }
-  otherwise(stateDef) {
-    this.urlRouter.otherwise(stateDef);
+  /**
+   * @param {String} stateName name of target state
+   */
+  otherwise(stateName) {
+    this.urlRouter.otherwise({state: stateName});
     return this;
   }
   start() {

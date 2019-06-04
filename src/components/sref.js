@@ -1,10 +1,16 @@
 import {
+  Symbol,
   Component,
   RENDER,
-  STATE,
-  STATE_RENDERED,
-  ARG_COMPONENTS
-} from 'jinge/core/component';
+  ARG_COMPONENTS,
+  GET_CONTEXT,
+  UPDATE_IF_NEED,
+  AFTER_RENDER,
+  BEFORE_DESTROY,
+  instanceOf,
+  isObject,
+  STR_DEFAULT
+} from 'jinge';
 import {
   addEvent,
   removeEvent,
@@ -12,12 +18,6 @@ import {
   addClass,
   removeClass
 } from 'jinge/dom';
-import {
-  Symbol,
-  instanceOf,
-  STR_DEFAULT,
-  isObject
-} from 'jinge/util';
 import {
   UIROUTER_CONTEXT,
   UIROUTER_CONTEXT_PARENT,
@@ -41,7 +41,7 @@ export class UISref extends Component {
       throw new Error('<ui-sref> attribute "params" require object.');
     }
     super(attrs);
-    const router = this.getContext(UIROUTER_CONTEXT);
+    const router = this[GET_CONTEXT](UIROUTER_CONTEXT);
     if (!router || !instanceOf(router, BaseRouter)) {
       throw new Error('RouterSref must under parent which has context named Router.CONTEXT_NAME');
     }
@@ -59,26 +59,25 @@ export class UISref extends Component {
   set to(v) {
     if (this._to === v) return;
     this._to = v;
-    this[STATE] === STATE_RENDERED && this[UISREF_UPDATE_HREF]();
+    this[UPDATE_IF_NEED](this[UISREF_UPDATE_HREF]);
   }
   get params() {
     return this._p;
   }
   set params(v) {
     this._p = v;
-    this[STATE] === STATE_RENDERED && this[UISREF_UPDATE_HREF]();
+    this[UPDATE_IF_NEED](this[UISREF_UPDATE_HREF]);
   }
   get active() {
     return this._a;
   }
   set active(v) {
     if (this._a === v) return;
-    const oldV = this._a;
-    this._a = v;
-    if (this[STATE] === STATE_RENDERED) {
-      if (oldV) removeClass(this[UISREF_HTML_DOM_NODE], oldV);
-      this[UISREF_UPDATE_ACTIVE]();
+    if (this._a && this[UISREF_HTML_DOM_NODE]) {
+      removeClass(this[UISREF_HTML_DOM_NODE], this._a);
     }
+    this._a = v;
+    this[UPDATE_IF_NEED](this[UISREF_UPDATE_ACTIVE]);
   }
   [UISREF_ON_CLICK](e) {
     if (!this.to) return;
@@ -87,11 +86,11 @@ export class UISref extends Component {
       this[UIROUTER].go(this.to, this.params);
     }
   }
-  afterRender() {
+  [AFTER_RENDER]() {
     this[UISREF_DEREGISTER] = this[UIROUTER].transitionService.onSuccess({}, () => this[UISREF_UPDATE_ACTIVE]());
     addEvent(this[UISREF_HTML_DOM_NODE], 'click', this[UISREF_CLICK_HANDLER]);
   }
-  beforeDestroy() {
+  [BEFORE_DESTROY]() {
     removeEvent(this[UISREF_HTML_DOM_NODE], 'click', this[UISREF_CLICK_HANDLER]);
     this[UISREF_DEREGISTER]();
   }
@@ -112,7 +111,7 @@ export class UISref extends Component {
   [UISREF_UPDATE_HREF]() {
     const el = this[UISREF_HTML_DOM_NODE];
     if (el.tagName === 'A') {
-      const parent = this.getContext(UIROUTER_CONTEXT_PARENT);
+      const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT);
       const parentContext = (parent && parent.context) || this[UIROUTER].stateRegistry.root();
       const href = this[UIROUTER].href(this.to, this.params, {
         relative: parentContext,

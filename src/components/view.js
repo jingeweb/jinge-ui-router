@@ -7,29 +7,29 @@ import {
   isString,
   STR_DEFAULT,
   STR_JINGE,
-  STR_EMPTY
-} from 'jinge/util';
+  STR_EMPTY,
+  wrapAttrs,
+  Component,
+  RENDER,
+  CONTEXT,
+  UPDATE_IF_NEED,
+  UPDATE,
+  GET_CONTEXT,
+  SET_CONTEXT
+} from 'jinge';
+import {
+  DESTROY,
+  isComponent,
+  ROOT_NODES,
+  getFirstHtmlDOM,
+  onAfterRender
+} from 'jinge/core/component';
 import {
   createComment,
   getParent,
   insertBefore,
   removeChild
 } from 'jinge/dom';
-import {
-  wrapViewModel
-} from 'jinge/viewmodel/proxy';
-import {
-  Component,
-  RENDER,
-  DESTROY,
-  ROOT_NODES,
-  isComponent,
-  getFirstHtmlDOM,
-  onAfterRender,
-  CONTEXT,
-  UPDATE_IF_NEED,
-  UPDATE
-} from 'jinge/core/component';
 import {
   UIROUTER,
   UIROUTER_CONTEXT,
@@ -55,18 +55,18 @@ function createEl(componentClass, resolves, context) {
     [CONTEXT]: context,
   };
   if (resolves) Object.assign(attrs, resolves);
-  return new componentClass(wrapViewModel(attrs, true));
+  return new componentClass(wrapAttrs(attrs));
 }
 
 export class UIView extends Component {
   constructor(attrs) {
     super(attrs);
-    const router = this.getContext(UIROUTER_CONTEXT);
+    const router = this[GET_CONTEXT](UIROUTER_CONTEXT);
     if (!router || !instanceOf(router, CoreRouter)) {
       throw new Error('RouterView must under parent which has context named Router.CONTEXT_NAME');
     }
     this[UIROUTER] = router;
-    const parent = this.getContext(UIROUTER_CONTEXT_PARENT) || { fqn: '', context: router.stateRegistry.root() };
+    const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT) || { fqn: '', context: router.stateRegistry.root() };
     const name = attrs._name || STR_DEFAULT;
     const uiViewData = {
       $type: STR_JINGE,
@@ -85,7 +85,7 @@ export class UIView extends Component {
     //   console.log(parent.context);
     //   debugger;
     // }
-    this.setContext(UIROUTER_CONTEXT_PARENT, uiViewAddress, true);
+    this[SET_CONTEXT](UIROUTER_CONTEXT_PARENT, uiViewAddress, true);
     this[UIVIEW_COMPONENT] = this[UIVIEW_RESOLVES] = null;
     this[UIVIEW_ADDRESS] = uiViewAddress;
     this[UIVIEW_DATA] = uiViewData;
