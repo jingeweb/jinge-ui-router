@@ -22,7 +22,7 @@ import {
   isComponent,
   ROOT_NODES,
   getFirstHtmlDOM,
-  onAfterRender
+  HANDLE_AFTER_RENDER
 } from 'jinge/core/component';
 import {
   createComment,
@@ -131,7 +131,7 @@ export class UIView extends Component {
     uiViewData.config = newConfig;
     this[UIVIEW_COMPONENT] = newConfig && newConfig.viewDecl && newConfig.viewDecl.component;
     this[UIVIEW_RESOLVES] = resolves;
-    this[UPDATE_IF_NEED]();
+    this[UPDATE_IF_NEED](false);
   }
   [UPDATE]() {
     const roots = this[ROOT_NODES];
@@ -155,7 +155,7 @@ export class UIView extends Component {
       removeChild(pa, fd);
     }
     roots[0] = el;
-    newComponent && onAfterRender(el);
+    newComponent && el[HANDLE_AFTER_RENDER]();
   }
   beforeDestroy() {
     this[UIVIEW_deregister]();
