@@ -21,7 +21,7 @@ import {
   DESTROY,
   isComponent,
   ROOT_NODES,
-  getFirstHtmlDOM,
+  GET_FIRST_DOM,
   HANDLE_AFTER_RENDER
 } from 'jinge/core/component';
 import {
@@ -142,7 +142,7 @@ export class UIView extends Component {
       return;
     }
     const el = newComponent ? createEl(newComponent, this[UIVIEW_RESOLVES], this[CONTEXT]) : createComment(STR_EMPTY);
-    const fd = isC ? getFirstHtmlDOM(preEl) : preEl;
+    const fd = isC ? preEl[GET_FIRST_DOM]() : preEl;
     const pa = getParent(fd);
     insertBefore(
       pa,
