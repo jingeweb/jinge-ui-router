@@ -28,7 +28,8 @@ import {
   createComment,
   getParent,
   insertBefore,
-  removeChild
+  removeChild,
+  replaceChild
 } from 'jinge/dom';
 import {
   UIROUTER,
@@ -67,7 +68,7 @@ export class UIView extends Component {
     }
     this[UIROUTER] = router;
     const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT) || { fqn: '', context: router.stateRegistry.root() };
-    const name = attrs._name || STR_DEFAULT;
+    const name = attrs.name || STR_DEFAULT;
     const uiViewData = {
       $type: STR_JINGE,
       id: ++AUTO_INC_ID,
@@ -144,11 +145,27 @@ export class UIView extends Component {
     const el = newComponent ? createEl(newComponent, this[UIVIEW_RESOLVES], this[CONTEXT]) : createComment(STR_EMPTY);
     const fd = isC ? preEl[GET_FIRST_DOM]() : preEl;
     const pa = getParent(fd);
-    insertBefore(
-      pa,
-      newComponent ? el[RENDER]() : el,
-      fd
-    );
+    if (newComponent) {
+      /**
+       * 如果 newComponent 中有子 <ui-view/>，并且其兄弟状态也有 <ui-view/>，
+       * `el[RENDER]()` 执行时，会触发 `preEl[DESTROY]()` 从而导致
+       * `fd` 这个元素被从 DOM 中删除。临时的解决方案是，
+       * 在执行 `el[RENDER]()` 之前，插入一个游标元素。
+       */
+      const cursorCmt = createComment('ui-view-cursor');
+      insertBefore(
+        pa,
+        cursorCmt,
+        fd
+      );
+      replaceChild(
+        pa,
+        el[RENDER](),
+        cursorCmt
+      );
+    } else {
+      insertBefore(pa, el, fd);
+    }
     if (isC) {
       preEl[DESTROY]();
     } else {

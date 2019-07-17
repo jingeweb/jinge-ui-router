@@ -1,6 +1,6 @@
 {
   "name": "jinge-ui-router",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ui-router for jinge framework",
   "main": "src/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "@uirouter/core": "^5.0.23"
   },
   "peerDependencies": {
-    "jinge": "^1.0.5"
+    "jinge": "^1.0.6"
   },
   "pre-commit": [
     "lint"

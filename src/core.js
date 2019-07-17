@@ -15,6 +15,9 @@ import {
   jingeViewsBuilder,
   JingeViewConfig
 } from './view';
+import {
+  UIRedirect
+} from './components';
 
 function viewConfigFactory(node, config) {
   return new JingeViewConfig(node, config);
@@ -39,7 +42,10 @@ export class BaseRouter extends UIRouter {
   }
   register(...stateDefines) {
     stateDefines.forEach(stateDef => {
-      if (!stateDef.name) throw new Error('ui-router state define require properties: name, component');
+      if (!stateDef.name) throw new Error('ui-router state define require "name" property.');
+      if (stateDef.redirectTo && !stateDef.component) {
+        stateDef.component = UIRedirect;
+      }
       const resolve = stateDef.resolve;
       if (!isUndefined(resolve)) {
         if (resolve === null || !isObject(resolve)) {
