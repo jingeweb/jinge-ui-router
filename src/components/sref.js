@@ -43,7 +43,8 @@ export class UISref extends Component {
     return `
 <_slot>
 <a
- e:class="className + (isActive && active ? (className ? ' ' : '') + active : '')"
+ _co:csty
+ e:class="!className && !(isActive && active) ? _udef : (className || '') + (isActive && active ? (className ? ' ' : '') + active : '')"
  e:style="style"
 >
 \${text}
@@ -76,8 +77,8 @@ export class UISref extends Component {
     this.reload = !!attrs.reload;
     this.text = attrs.text || '';
     this.target = attrs.target || '_self';
-    this.className = attrs.class || '';
-    this.style = attrs.style || '';
+    this.className = attrs.class;
+    this.style = attrs.style;
   }
   get target() {
     return this._target;
