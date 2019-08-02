@@ -41,15 +41,13 @@ const SUPPORTED_TARGETS = ['_blank', '_self'];
 export class UISref extends Component {
   static get template() {
     return `
-<_slot>
 <a
- _co:csty
+ slot-use:default
  e:class="!className && !(isActive && active) ? _udef : (className || '') + (isActive && active ? (className ? ' ' : '') + active : '')"
  e:style="style"
 >
 \${text}
-</a>
-</_slot>`;
+</a>`;
   }
   constructor(attrs) {
     if (attrs.params && !isObject(attrs.params)) {
