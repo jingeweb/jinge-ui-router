@@ -13,7 +13,6 @@ import {
   STR_JINGE
 } from 'jinge/util';
 
-
 export function jingeViewsBuilder(state) {
   const views = {};
   let viewsDefinitionObject;
@@ -26,13 +25,15 @@ export function jingeViewsBuilder(state) {
   } else {
     viewsDefinitionObject = mapObject(state.views, val => {
       if (val.component) return val;
-      return { component: val };
+      return {
+        component: val
+      };
     });
   }
 
-  for(const name in viewsDefinitionObject) {
+  for (const name in viewsDefinitionObject) {
     const config = viewsDefinitionObject[name];
-    if (Object.keys(config).length == 0) return;
+    if (Object.keys(config).length === 0) return;
     config.$type = STR_JINGE;
     config.$context = state;
     config.$name = name || STR_DEFAULT;

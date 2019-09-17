@@ -23,14 +23,20 @@ function viewConfigFactory(node, config) {
   return new JingeViewConfig(node, config);
 }
 
-export const UIROUTER_CONTEXT = Symbol('#ui-router_context');
-export const UIROUTER_CONTEXT_PARENT = Symbol('#ui-router_parent');
 export const UIROUTER = Symbol('router');
+
+/**
+ * 此处的 context 名称不使用 Symbol，是为了在 jinge-material 组件库中获取
+ * 上下文时可以不依赖 jinge-ui-router 库。
+ */
+export const UIROUTER_CONTEXT = '#ui-router_context';
+export const UIROUTER_CONTEXT_PARENT = '#ui-router_parent';
 
 export class BaseRouter extends UIRouter {
   static get CONTEXT_NAME() {
     return UIROUTER_CONTEXT;
   }
+
   constructor(locationPlugin, options) {
     super();
     this.viewService._pluginapi._viewConfigFactory(STR_JINGE, viewConfigFactory);
@@ -40,6 +46,7 @@ export class BaseRouter extends UIRouter {
     this.plugin(servicesPlugin);
     locationPlugin && this.plugin(locationPlugin);
   }
+
   register(...stateDefines) {
     stateDefines.forEach(stateDef => {
       if (!stateDef.name) throw new Error('ui-router state define require "name" property.');
@@ -53,7 +60,9 @@ export class BaseRouter extends UIRouter {
         }
         if (!isArray(resolve)) {
           stateDef.resolve = Object.keys(resolve).map(k => {
-            const rtn = { token: k };
+            const rtn = {
+              token: k
+            };
             const v = resolve[k];
             if (isArray(v)) {
               if (v.length > 1) {
@@ -74,34 +83,44 @@ export class BaseRouter extends UIRouter {
     });
     return this;
   }
+
   /**
    * @param {String} stateName name of target state
    */
   otherwise(stateName) {
-    this.urlRouter.otherwise({state: stateName});
+    this.urlRouter.otherwise({
+      state: stateName
+    });
     return this;
   }
+
   start() {
     if (this._started) throw new Error('has been started');
     this.urlService.listen();
     this.urlService.sync();
     this._started = true;
   }
+
   includes(...args) {
     return this.stateService.includes(...args);
   }
+
   href(...args) {
     return this.stateService.href(...args);
   }
+
   go(...args) {
     return this.stateService.go(...args);
   }
+
   get params() {
     return this.stateService.params;
   }
+
   get transition() {
     return this.stateService.transition;
   }
+
   get current() {
     return this.stateService.$current;
   }

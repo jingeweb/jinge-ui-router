@@ -31,9 +31,11 @@ export class UIBaseRouter extends Component {
     this[UIROUTER] = router;
     this[SET_CONTEXT](UIROUTER_CONTEXT, router);
   }
+
   [AFTER_RENDER]() {
     this[UIROUTER].start();
   }
+
   [BEFORE_DESTROY]() {
     this[UIROUTER].dispose();
   }

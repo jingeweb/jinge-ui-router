@@ -43,20 +43,21 @@ const UIVIEW_COMPONENT = Symbol('component');
 const UIVIEW_DATA = Symbol('data');
 const UIVIEW_ADDRESS = Symbol('address');
 const UIVIEW_CONFIG_UPDATED = Symbol();
+// eslint-disable-next-line camelcase
 const UIVIEW_deregister = Symbol('deregister');
 const TransitionPropCollisionError = new Error(
   '`transition` cannot be used as resolve token. Please rename your resolve to avoid conflicts with the router transition.'
 );
 
-const EXCLUDES = ['$transition$','$stateParams', '$state$'];
+const EXCLUDES = ['$transition$', '$stateParams', '$state$'];
 let AUTO_INC_ID = 0;
 
-function createEl(componentClass, resolves, context) {
+function createEl(ComponentClass, resolves, context) {
   const attrs = {
-    [CONTEXT]: context,
+    [CONTEXT]: context
   };
   if (resolves) Object.assign(attrs, resolves);
-  return new componentClass(wrapAttrs(attrs));
+  return new ComponentClass(wrapAttrs(attrs));
 }
 
 export class UIView extends Component {
@@ -67,7 +68,9 @@ export class UIView extends Component {
       throw new Error('RouterView must under parent which has context named Router.CONTEXT_NAME');
     }
     this[UIROUTER] = router;
-    const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT) || { fqn: '', context: router.stateRegistry.root() };
+    const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT) || {
+      fqn: '', context: router.stateRegistry.root()
+    };
     const name = attrs.name || STR_DEFAULT;
     const uiViewData = {
       $type: STR_JINGE,
@@ -92,6 +95,7 @@ export class UIView extends Component {
     this[UIVIEW_DATA] = uiViewData;
     this[UIVIEW_deregister] = router.viewService.registerUIView(uiViewData);
   }
+
   [RENDER]() {
     const roots = this[ROOT_NODES];
     const componentClass = this[UIVIEW_COMPONENT];
@@ -103,6 +107,7 @@ export class UIView extends Component {
     roots.push(el);
     return el[RENDER]();
   }
+
   [UIVIEW_CONFIG_UPDATED](newConfig) {
     // console.log('cfg', newConfig, this[UIVIEW_DATA].id);
     const uiViewData = this[UIVIEW_DATA];
@@ -134,6 +139,7 @@ export class UIView extends Component {
     this[UIVIEW_RESOLVES] = resolves;
     this[UPDATE_IF_NEED](false);
   }
+
   [UPDATE]() {
     const roots = this[ROOT_NODES];
     const preEl = roots[0];
@@ -174,6 +180,7 @@ export class UIView extends Component {
     roots[0] = el;
     newComponent && el[HANDLE_AFTER_RENDER]();
   }
+
   beforeDestroy() {
     this[UIVIEW_deregister]();
   }

@@ -9,4 +9,3 @@ export class UIRedirect extends Component {
 <UIView/>`;
   }
 }
-

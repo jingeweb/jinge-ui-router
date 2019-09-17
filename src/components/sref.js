@@ -49,6 +49,7 @@ export class UISref extends Component {
 \${text}
 </a>`;
   }
+
   constructor(attrs) {
     if (attrs.params && !isObject(attrs.params)) {
       throw new Error('<ui-sref> attribute "params" require object.');
@@ -67,7 +68,7 @@ export class UISref extends Component {
     this[DEREGISTER] = null;
     this[TAG] = attrs[ARG_COMPONENTS] && attrs[ARG_COMPONENTS][STR_DEFAULT] ? 0 : -1;
     this[CLICK_HANDLER] = this[ON_CLICK].bind(this);
-    this.isActive = false;   
+    this.isActive = false;
     this.to = attrs.to;
     this.params = attrs.params;
     this.active = attrs.active;
@@ -78,32 +79,40 @@ export class UISref extends Component {
     this.className = attrs.class;
     this.style = attrs.style;
   }
+
   get target() {
     return this._target;
   }
+
   set target(v) {
     if (this._target === v) return;
     this._target = v;
     this[UPDATE_IF_NEED](this[UPDATE_TARGET]);
   }
+
   get to() {
     return this._to;
   }
+
   set to(v) {
     if (this._to === v) return;
     this._to = v;
     this[UPDATE_IF_NEED](this[UPDATE_HREF]);
   }
+
   get params() {
     return this._params;
   }
+
   set params(v) {
     this._params = v;
     this[UPDATE_IF_NEED](this[UPDATE_HREF]);
   }
+
   get active() {
     return this._active;
   }
+
   set active(v) {
     if (this._active === v) return;
     if (this[TAG] >= 0 && this._active && this[EL]) {
@@ -112,6 +121,7 @@ export class UISref extends Component {
     this._active = v;
     this[UPDATE_IF_NEED](this[UPDATE_ACTIVE]);
   }
+
   [ON_CLICK](e) {
     if (e.defaultPrevented || e.metaKey || e.ctrlKey) {
       return;
@@ -137,6 +147,7 @@ export class UISref extends Component {
       });
     }
   }
+
   [AFTER_RENDER]() {
     const el = this[GET_FIRST_DOM]();
     if (this[TAG] >= 0) {
@@ -147,20 +158,23 @@ export class UISref extends Component {
     this[UPDATE_TARGET]();
     this[UPDATE_HREF]();
     this[UPDATE_ACTIVE]();
-    addEvent(el, 'click', this[CLICK_HANDLER]);    
+    addEvent(el, 'click', this[CLICK_HANDLER]);
   }
+
   [BEFORE_DESTROY]() {
-    removeEvent(this[EL], 'click', this[CLICK_HANDLER]);    
+    removeEvent(this[EL], 'click', this[CLICK_HANDLER]);
     this[DEREGISTER]();
   }
+
   [UPDATE_TARGET]() {
     if (this[TAG] <= 0) {
       setAttribute(this[EL], 'target', this._target);
     }
   }
+
   [UPDATE_HREF]() {
     const router = this[ROUTER];
-    this.isActive = router.includes(this._to, this._params);    
+    this.isActive = router.includes(this._to, this._params);
     if (this[TAG] <= 0) {
       const parent = this[GET_CONTEXT](UIROUTER_CONTEXT_PARENT);
       const parentContext = (parent && parent.context) || router.stateRegistry.root();
@@ -170,10 +184,10 @@ export class UISref extends Component {
       }));
     }
   }
+
   [UPDATE_ACTIVE]() {
     this.isActive = this[ROUTER].includes(this._to, this._params);
     if (!this._active || this[TAG] < 0) return;
-    // console.log(this.to, this.params);
     if (this.isActive) {
       addClass(this[EL], this._active);
     } else {
