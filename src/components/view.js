@@ -22,7 +22,8 @@ import {
   isComponent,
   ROOT_NODES,
   GET_FIRST_DOM,
-  HANDLE_AFTER_RENDER
+  HANDLE_AFTER_RENDER,
+  BEFORE_DESTROY
 } from 'jinge/core/component';
 import {
   createComment,
@@ -181,7 +182,7 @@ export class UIView extends Component {
     newComponent && el[HANDLE_AFTER_RENDER]();
   }
 
-  beforeDestroy() {
+  [BEFORE_DESTROY]() {
     this[UIVIEW_deregister]();
   }
 }
