@@ -15,23 +15,19 @@ import {
   UPDATE_IF_NEED,
   UPDATE,
   GET_CONTEXT,
-  SET_CONTEXT
-} from 'jinge';
-import {
+  SET_CONTEXT,
+  createComment,
+  getParent,
+  insertBefore,
+  removeChild,
+  replaceChild,
   DESTROY,
   isComponent,
   ROOT_NODES,
   GET_FIRST_DOM,
   HANDLE_AFTER_RENDER,
   BEFORE_DESTROY
-} from 'jinge/core/component';
-import {
-  createComment,
-  getParent,
-  insertBefore,
-  removeChild,
-  replaceChild
-} from 'jinge/dom';
+} from 'jinge';
 import {
   UIROUTER,
   UIROUTER_CONTEXT,

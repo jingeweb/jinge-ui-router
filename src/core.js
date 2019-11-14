@@ -10,7 +10,7 @@ import {
   isArray,
   isUndefined,
   isFunction
-} from 'jinge/util';
+} from 'jinge';
 import {
   jingeViewsBuilder,
   JingeViewConfig

@@ -1,4 +1,13 @@
 # jinge-ui-router
 
-> ui-router for [jinge-framework](https://github.com/YuhangGe/jinge)
+> router based on [@uirouter/core](https://github.com/ui-router/core) for [jinge](https://github.com/YuhangGe/jinge) mvvm framework
 
+Most code is copied & modified from [react-ui-router](https://github.com/ui-router/react)
+
+## demo
+
+| | |
+|--|--|
+| simple-router | https://github.com/YuhangGe/jinge-demos/tree/dev/06-ui-router |
+| todo-mvc | https://github.com/YuhangGe/jinge-demos/tree/dev/08-todo-mvc |
+| jinge-material | https://material.jinge.design |

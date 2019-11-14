@@ -8,18 +8,14 @@ import {
   instanceOf,
   isObject,
   GET_FIRST_DOM,
-  STR_DEFAULT
-} from 'jinge';
-import {
-  ARG_COMPONENTS
-} from 'jinge/core/component';
-import {
+  STR_DEFAULT,
+  ARG_COMPONENTS,
   addEvent,
   removeEvent,
   setAttribute,
   addClass,
   removeClass
-} from 'jinge/dom';
+} from 'jinge';
 import {
   UIROUTER_CONTEXT,
   UIROUTER_CONTEXT_PARENT,
