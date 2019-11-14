@@ -11,3 +11,7 @@ Most code is copied & modified from [react-ui-router](https://github.com/ui-rout
 | simple-router | https://github.com/YuhangGe/jinge-demos/tree/dev/06-ui-router |
 | todo-mvc | https://github.com/YuhangGe/jinge-demos/tree/dev/08-todo-mvc |
 | jinge-material | https://material.jinge.design |
+
+## todo
+
+* add build dist to npm
