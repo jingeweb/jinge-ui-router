@@ -124,6 +124,14 @@ export class BaseRouter extends UIRouter {
   get current() {
     return this.stateService.$current;
   }
+
+  get baseHref() {
+    return this.locationConfig.baseHref();
+  }
+
+  set baseHref(v) {
+    this.locationConfig.baseHref(v);
+  }
 }
 
 export class HashRouter extends BaseRouter {

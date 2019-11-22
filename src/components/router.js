@@ -16,20 +16,29 @@ export const UI_ROUTER = Symbol('router');
 
 export class UIBaseRouter extends Component {
   constructor(attrs, CoreRouter) {
-    const router = new CoreRouter();
-    // console.log(attrs._plugins);
-    if (attrs && attrs._plugins) {
-      attrs._plugins.forEach(plugin => router.plugin(plugin));
+    const router = attrs.router || new CoreRouter();
+    if (attrs.plugins) {
+      attrs.plugins.forEach(plugin => router.plugin(plugin));
     }
-    if (attrs && attrs._states) {
-      attrs._states.forEach(state => router.register(state));
+    if (attrs.states) {
+      attrs.states.forEach(state => router.register(state));
     }
-    if (attrs && attrs._otherwise) {
-      router.otherwise(attrs._otherwise);
+    if (attrs.otherwise) {
+      router.otherwise(attrs.otherwise);
     }
     super(attrs);
     this[UIROUTER] = router;
     this[SET_CONTEXT](UIROUTER_CONTEXT, router);
+
+    this.baseHref = attrs.baseHref;
+  }
+
+  get baseHref() {
+    return this[UIROUTER].baseHref;
+  }
+
+  set baseHref(v) {
+    this[UIROUTER].baseHref = v;
   }
 
   [AFTER_RENDER]() {
