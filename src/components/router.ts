@@ -1,12 +1,6 @@
-import {
-  HashRouter as HashCoreRouter, Html5Router as Html5CoreRouter, BaseRouter, RouteDefine
-} from '../core';
-import {
-  ComponentAttributes, Component
-} from 'jinge';
-import {
-  UIRouterPlugin, UIRouter
-} from '@uirouter/core';
+import { ComponentAttributes, Component } from 'jinge';
+import { UIRouterPlugin, UIRouter } from '@uirouter/core';
+import { HashRouter as HashCoreRouter, Html5Router as Html5CoreRouter, BaseRouter, RouteDefine } from '../core';
 
 export interface UIRouterComponentAttributes extends ComponentAttributes {
   router?: BaseRouter | string;
@@ -21,7 +15,7 @@ export class UIRouterComponent extends Component {
   constructor(attrs: UIRouterComponentAttributes) {
     let coreRouter: BaseRouter;
     if (!(attrs.router instanceof BaseRouter)) {
-      if (attrs.router as string === 'hash') {
+      if ((attrs.router as string) === 'hash') {
         coreRouter = new HashCoreRouter();
       } else {
         coreRouter = new Html5CoreRouter();
@@ -30,10 +24,10 @@ export class UIRouterComponent extends Component {
       coreRouter = attrs.router as BaseRouter;
     }
     if (attrs.plugins) {
-      attrs.plugins.forEach(plugin => coreRouter.plugin(plugin));
+      attrs.plugins.forEach((plugin) => coreRouter.plugin(plugin));
     }
     if (attrs.states) {
-      attrs.states.forEach(state => coreRouter.register(state));
+      attrs.states.forEach((state) => coreRouter.register(state));
     }
     if (attrs.otherwise) {
       coreRouter.otherwise(attrs.otherwise);

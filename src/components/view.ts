@@ -1,32 +1,25 @@
-import {
-  ResolveContext, ActiveUIView
-} from '@uirouter/core';
-import {
-  Component, ComponentAttributes, __, isComponent,
-  createFragment, isString
-} from 'jinge';
-import {
-  BaseRouter as CoreRouter
-} from '../core';
-import {
-  UIViewAddress, ComponentConstructor
-} from '../common';
-import {
-  JingeViewConfig
-} from '../view';
+import { ResolveContext, ActiveUIView } from '@uirouter/core';
+import { Component, ComponentAttributes, __, isComponent, createFragment, isString } from 'jinge';
+import { BaseRouter as CoreRouter } from '../core';
+import { UIViewAddress, ComponentConstructor } from '../common';
+import { JingeViewConfig } from '../view';
 
 const TransitionPropCollisionError = new Error(
-  '`transition` cannot be used as resolve token. Please rename your resolve to avoid conflicts with the router transition.'
+  '`transition` cannot be used as resolve token. Please rename your resolve to avoid conflicts with the router transition.',
 );
 
 const EXCLUDES = ['$transition$', '$stateParams', '$state$'];
 let AUTO_INC_ID = 0;
 
-function createEl(ComponentClass: ComponentConstructor, resolves: Record<string, unknown>, context: Record<string, unknown>): Component {
+function createEl(
+  ComponentClass: ComponentConstructor,
+  resolves: Record<string, unknown>,
+  context: Record<string, unknown>,
+): Component {
   const attrs = {
     [__]: {
-      context
-    }
+      context,
+    },
   };
   if (resolves) {
     Object.assign(attrs, resolves);
@@ -50,10 +43,11 @@ export class UIViewComponent extends Component {
       throw new Error('<ui-view/> must be used under <ui-router/>');
     }
     this._router = router as CoreRouter;
-    const parent = this.__getContext('ui-router-parent') as UIViewAddress || {
-      fqn: '', context: this._router.stateRegistry.root()
+    const parent = (this.__getContext('ui-router-parent') as UIViewAddress) || {
+      fqn: '',
+      context: this._router.stateRegistry.root(),
     };
-    const name = attrs.name as string || 'default';
+    const name = (attrs.name as string) || 'default';
     const uiViewData: ActiveUIView = {
       $type: 'jinge',
       id: ++AUTO_INC_ID,
@@ -61,11 +55,11 @@ export class UIViewComponent extends Component {
       fqn: parent.fqn ? parent.fqn + '.' + name : name,
       creationContext: parent.context,
       configUpdated: this._onCfgUpdate.bind(this),
-      config: undefined
+      config: undefined,
     };
     const uiViewAddress: UIViewAddress = {
       fqn: uiViewData.fqn,
-      context: undefined
+      context: undefined,
     };
     // if (uiViewData.id === 2) {
     //   console.log(parent.context);
@@ -104,14 +98,14 @@ export class UIViewComponent extends Component {
       const resolveContext = new ResolveContext(newConfig.path);
       const injector = resolveContext.injector();
 
-      const stringTokens = resolveContext.getTokens().filter(t => isString(t) && EXCLUDES.indexOf(t) < 0);
+      const stringTokens = resolveContext.getTokens().filter((t) => isString(t) && EXCLUDES.indexOf(t) < 0);
       if (stringTokens.indexOf('transition') !== -1) {
         throw TransitionPropCollisionError;
       }
 
       if (stringTokens.length > 0) {
         resolves = {};
-        stringTokens.forEach(token => {
+        stringTokens.forEach((token) => {
           resolves[token] = injector.get(token);
         });
       }
@@ -132,7 +126,7 @@ export class UIViewComponent extends Component {
       return;
     }
     const el = newComponent ? createEl(newComponent, this._viewRes, this[__].context) : document.createComment('empty');
-    const fd = isC ? (preEl as Component).__firstDOM : preEl as Node;
+    const fd = isC ? (preEl as Component).__firstDOM : (preEl as Node);
     const pa = fd.parentNode;
     if (newComponent) {
       /**

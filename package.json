@@ -1,13 +1,17 @@
 {
   "name": "jinge-ui-router",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "ui-router for jinge framework",
   "main": "lib/index.js",
-  "types": "types/index.d.ts",
   "scripts": {
     "watch": "tsc -w",
-    "ts": "tsc",
-    "lint": "eslint './src/**/*.ts'"
+    "tsc": "tsc",
+    "lint": "eslint './{src,compiler}/**/*.{js,ts}' --fix",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix"
   },
   "repository": {
     "type": "git",
@@ -24,20 +28,22 @@
   },
   "homepage": "https://github.com/YuhangGe/jinge-ui-router#readme",
   "dependencies": {
-    "@uirouter/core": "^6.0.4"
+    "@uirouter/core": "^6.0.8"
   },
   "peerDependencies": {
-    "jinge": "^2.0.0"
+    "jinge": "^3.0.0"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "devDependencies": {
-    "@types/eslint": "^6.8.0",
-    "@typescript-eslint/eslint-plugin": "^2.27.0",
-    "@typescript-eslint/parser": "^2.27.0",
-    "eslint": "^6.8.0",
-    "precommit-hook": "^3.0.0",
-    "typescript": "^3.8.3"
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "jinge": "^3.0.0",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
   }
 }

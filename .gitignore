@@ -3,11 +3,5 @@ node_modules
 /.tmp
 /.vscode
 **/.DS_Store
-.jshintignore
-.jshintrc
-.jshint
-.jshint.json
 dist
 /lib
-/types
-

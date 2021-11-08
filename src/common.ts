@@ -1,17 +1,12 @@
-import {
-  _ViewDeclaration, ViewContext,
-  StateObject
-} from '@uirouter/core';
-import {
-  Component
-} from 'jinge';
+import { _ViewDeclaration, ViewContext, StateObject } from '@uirouter/core';
+import { Component } from 'jinge';
 
 export interface ComponentConstructor {
   create(attrs: object): Component;
 }
 
 export interface JingeViewDeclaration extends _ViewDeclaration {
-  component?: ComponentConstructor; 
+  component?: ComponentConstructor;
 }
 export interface JingeViewDefinition {
   [k: string]: JingeViewDeclaration;

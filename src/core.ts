@@ -12,18 +12,11 @@ import {
   StateParams,
   Transition,
   StateObject,
-  PathNode
+  PathNode,
 } from '@uirouter/core';
-import {
-  jingeViewsBuilder,
-  JingeViewConfig
-} from './view';
-import {
-  UIRedirect
-} from './components/redirect';
-import {
-  JingeViewDeclaration, ComponentConstructor
-} from './common';
+import { jingeViewsBuilder, JingeViewConfig } from './view';
+import { UIRedirect } from './components/redirect';
+import { JingeViewDeclaration, ComponentConstructor } from './common';
 
 function viewConfigFactory(path: PathNode[], decl: JingeViewDeclaration): JingeViewConfig {
   return new JingeViewConfig(path, decl);
@@ -51,7 +44,7 @@ export class BaseRouter extends UIRouter {
   }
 
   register(...stateDefines: RouteDefine[]): BaseRouter {
-    stateDefines.forEach(stateDef => {
+    stateDefines.forEach((stateDef) => {
       if (stateDef.redirectTo && !stateDef.component) {
         stateDef.component = UIRedirect;
       }
@@ -65,7 +58,7 @@ export class BaseRouter extends UIRouter {
    */
   otherwise(stateName: string): BaseRouter {
     this.urlRouter.otherwise({
-      state: stateName
+      state: stateName,
     });
     return this;
   }

@@ -1,16 +1,7 @@
-import {
-  Component, ComponentAttributes, __,
-  isObject, setAttribute, addEvent, removeEvent
-} from 'jinge';
-import {
-  BaseRouter
-} from '../core';
-import {
-  RawParams, StateOrName
-} from '@uirouter/core';
-import {
-  UIViewAddress
-} from './view';
+import { Component, ComponentAttributes, __, isObject, setAttribute, addEvent, removeEvent } from 'jinge';
+import { RawParams, StateOrName } from '@uirouter/core';
+import { BaseRouter } from '../core';
+import { UIViewAddress } from './view';
 
 const SUPPORTED_TARGETS = ['_blank', '_self'];
 
@@ -37,7 +28,7 @@ export class UISrefComponent extends Component {
   _params: RawParams;
 
   isActive: boolean;
-  location: string | boolean;
+  location: 'replace' | boolean;
   reload: boolean;
   text: string;
   className: string;
@@ -66,10 +57,10 @@ export class UISrefComponent extends Component {
     this.to = attrs.to as string;
     this.params = attrs.params as Record<string, unknown>;
     this.active = attrs.active as string;
-    this.location = ('location' in attrs) ? attrs.location as string : true;
+    this.location = 'location' in attrs ? (attrs.location as string as 'replace') : true;
     this.reload = !!attrs.reload;
-    this.text = attrs.text as string || '';
-    this.target = attrs.target as string || '_self';
+    this.text = (attrs.text as string) || '';
+    this.target = (attrs.target as string) || '_self';
     this.className = attrs.class as string;
     this.style = attrs.style as string;
 
@@ -135,7 +126,7 @@ export class UISrefComponent extends Component {
     if (this._target === '_blank') {
       const href = router.href(this._to, this._params, {
         relative: parentContext,
-        inherit: true
+        inherit: true,
       });
       window.open(href);
     } else {
@@ -143,7 +134,7 @@ export class UISrefComponent extends Component {
         relative: parentContext,
         inherit: true,
         location: this.location,
-        reload: this.reload
+        reload: this.reload,
       });
     }
   }
@@ -178,10 +169,14 @@ export class UISrefComponent extends Component {
     if (this._tag <= 0) {
       const parent = this.__getContext('ui-router-parent') as UIViewAddress;
       const parentContext = (parent && parent.context) || router.stateRegistry.root();
-      setAttribute(this._el, 'href', router.href(this._to, this._params, {
-        relative: parentContext,
-        inherit: true
-      }));
+      setAttribute(
+        this._el,
+        'href',
+        router.href(this._to, this._params, {
+          relative: parentContext,
+          inherit: true,
+        }),
+      );
     }
   }
 
