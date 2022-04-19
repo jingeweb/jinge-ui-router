@@ -1,9 +1,5 @@
 import { Component } from 'jinge';
-
+import _tpl from './redirect.html';
 export class UIRedirect extends Component {
-  static get template(): string {
-    return `
-<!-- import { UIViewComponent } from './view'; -->
-<UIViewComponent/>`;
-  }
+  static template = _tpl;
 }

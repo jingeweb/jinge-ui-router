@@ -27,7 +27,6 @@ function createEl(
   return ComponentClass.create(attrs);
 }
 
-export { UIViewAddress } from '../common';
 export class UIViewComponent extends Component {
   _router: CoreRouter;
   _viewComp: ComponentConstructor;
@@ -94,7 +93,7 @@ export class UIViewComponent extends Component {
     let resolves: Record<string, unknown> = null;
 
     if (newConfig) {
-      this._viewAddr.context = newConfig.viewDecl && newConfig.viewDecl.$context;
+      this._viewAddr.context = newConfig.viewDecl?.$context;
       const resolveContext = new ResolveContext(newConfig.path);
       const injector = resolveContext.injector();
 

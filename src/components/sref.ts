@@ -1,21 +1,12 @@
 import { Component, ComponentAttributes, __, isObject, setAttribute, addEvent, removeEvent } from 'jinge';
 import { RawParams, StateOrName } from '@uirouter/core';
 import { BaseRouter } from '../core';
-import { UIViewAddress } from './view';
-
+import { UIViewAddress } from '../common';
+import _tpl from './sref.html';
 const SUPPORTED_TARGETS = ['_blank', '_self'];
 
 export class UISrefComponent extends Component {
-  static get template(): string {
-    return `
-<a
- slot-use:default
- e:class="!className && !(isActive && active) ? _udef : (className || '') + (isActive && active ? (className ? ' ' : '') + active : '')"
- e:style="style"
->
-\${text}
-</a>`;
-  }
+  static template = _tpl;
 
   _router: BaseRouter;
   _el: HTMLElement;
@@ -64,11 +55,11 @@ export class UISrefComponent extends Component {
     this.className = attrs.class as string;
     this.style = attrs.style as string;
 
-    /**
-     * 切换语言后，不少场景下都需要更新链接，比如 baseHref 或 url 参数需要相应地改变，等等。
-     * 考虑到一个页面同时渲染的链接不会太多（就算 1000 个更新也很快），就统一在i18n 的 locale 变化时更新链接。
-     */
-    this.__i18nWatch(this._updateHref);
+    // /**
+    //  * 切换语言后，不少场景下都需要更新链接，比如 baseHref 或 url 参数需要相应地改变，等等。
+    //  * 考虑到一个页面同时渲染的链接不会太多（就算 1000 个更新也很快），就统一在i18n 的 locale 变化时更新链接。
+    //  */
+    // this.__i18nWatch(this._updateHref);
   }
 
   get target(): string {
@@ -122,7 +113,7 @@ export class UISrefComponent extends Component {
     }
     const router = this._router;
     const parent = this.__getContext('ui-router-parent') as UIViewAddress;
-    const parentContext = (parent && parent.context) || router.stateRegistry.root();
+    const parentContext = parent?.context || router.stateRegistry.root();
     if (this._target === '_blank') {
       const href = router.href(this._to, this._params, {
         relative: parentContext,
@@ -168,7 +159,7 @@ export class UISrefComponent extends Component {
     this.isActive = router.includes(this._to, this._params);
     if (this._tag <= 0) {
       const parent = this.__getContext('ui-router-parent') as UIViewAddress;
-      const parentContext = (parent && parent.context) || router.stateRegistry.root();
+      const parentContext = parent?.context || router.stateRegistry.root();
       setAttribute(
         this._el,
         'href',
