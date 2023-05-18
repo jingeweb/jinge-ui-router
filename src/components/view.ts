@@ -72,7 +72,7 @@ export class UIViewComponent extends Component {
     this._viewDereg = this._router.viewService.registerUIView(uiViewData);
   }
 
-  __render(): Node[] {
+  __doRender() {
     const roots = this[__].rootNodes;
     const componentClass = this._viewComp;
     if (!componentClass) {
@@ -84,7 +84,7 @@ export class UIViewComponent extends Component {
     return el.__render();
   }
 
-  _onCfgUpdate(newConfig: JingeViewConfig): void {
+  _onCfgUpdate(newConfig: JingeViewConfig) {
     // console.log('cfg', newConfig, this[UIVIEW_DATA].id);
     const uiViewData = this._viewData;
     if (uiViewData.config === newConfig) return;
@@ -116,7 +116,7 @@ export class UIViewComponent extends Component {
     this.__updateIfNeed(false);
   }
 
-  __update(): void {
+  async __update() {
     const roots = this[__].rootNodes;
     const preEl = roots[0];
     const isC = isComponent(preEl);
@@ -136,21 +136,21 @@ export class UIViewComponent extends Component {
        */
       const cursorCmt = document.createComment('ui-view-cursor');
       pa.insertBefore(cursorCmt, fd);
-      const nels = (el as Component).__render();
+      const nels = await (el as Component).__render();
       pa.replaceChild(nels.length > 1 ? createFragment(nels) : nels[0], cursorCmt);
     } else {
       pa.insertBefore(el as Node, fd);
     }
     if (isC) {
-      (preEl as Component).__destroy();
+      await (preEl as Component).__destroy();
     } else {
       pa.removeChild(fd);
     }
     roots[0] = el;
-    newComponent && (el as Component).__handleAfterRender();
+    newComponent && (await (el as Component).__handleAfterRender());
   }
 
-  __beforeDestroy(): void {
+  __beforeDestroy() {
     this._viewDereg();
   }
 }
