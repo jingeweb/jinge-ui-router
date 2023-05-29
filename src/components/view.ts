@@ -72,7 +72,7 @@ export class UIViewComponent extends Component {
     this._viewDereg = this._router.viewService.registerUIView(uiViewData);
   }
 
-  __doRender() {
+  __render() {
     const roots = this[__].rootNodes;
     const componentClass = this._viewComp;
     if (!componentClass) {
@@ -116,7 +116,7 @@ export class UIViewComponent extends Component {
     this.__updateIfNeed(false);
   }
 
-  async __update() {
+  __update() {
     const roots = this[__].rootNodes;
     const preEl = roots[0];
     const isC = isComponent(preEl);
@@ -136,18 +136,18 @@ export class UIViewComponent extends Component {
        */
       const cursorCmt = document.createComment('ui-view-cursor');
       pa.insertBefore(cursorCmt, fd);
-      const nels = await (el as Component).__render();
+      const nels = (el as Component).__render();
       pa.replaceChild(nels.length > 1 ? createFragment(nels) : nels[0], cursorCmt);
     } else {
       pa.insertBefore(el as Node, fd);
     }
     if (isC) {
-      await (preEl as Component).__destroy();
+      (preEl as Component).__destroy();
     } else {
       pa.removeChild(fd);
     }
     roots[0] = el;
-    newComponent && (await (el as Component).__handleAfterRender());
+    newComponent && (el as Component).__handleAfterRender();
   }
 
   __beforeDestroy() {
